@@ -1,0 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Sistema_de_Hospedagem.Models;
+
+namespace Sistema_de_Hospedagem.Models
+{
+  public class Pessoa
+  {
+    public string Nome { get; set; }
+    }
+}

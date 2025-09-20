@@ -1,0 +1,135 @@
+﻿using Sistema_de_Hospedagem.Models;
+
+bool condicao = true;
+
+Suite suiteA = new()
+{
+  Capacidade = 2,
+  TipoSuite = "Presidencial",
+  ValorDiaria = 1385.97M
+};
+
+Suite suiteB = new()
+{
+  Capacidade = 1,
+  TipoSuite = "Exclusiva Premium Individual",
+  ValorDiaria = 2499.99M
+};
+
+while (condicao)
+{
+  Console.Clear();
+  Console.WriteLine("Damos boas-vindas ao sistema do nosso Hotel!\n");
+
+  Console.WriteLine("Digite qualquer tecla para fazer uma reserva:");
+
+  Console.ReadKey();
+
+  Reserva reserva1 = new();
+
+  Console.Clear();
+
+  Console.WriteLine("Você deseja fazer uma reserva para quantas pessoas?\n");
+
+  string quantidadePessoas = Console.ReadLine();
+
+  Console.Clear();
+
+  if (Convert.ToInt32(quantidadePessoas) > 0)
+  {
+    Console.WriteLine("Ok, aqui estão as opções de suites para essa quantidade de pessoas. Escolha uma oção para continuar.\n");
+
+    if (Convert.ToInt32(quantidadePessoas) <= suiteA.Capacidade)
+    {
+      Console.WriteLine($"A: Suite {suiteA.TipoSuite}, que tem capacidade para {suiteA.Capacidade} {(suiteA.Capacidade == 1 ? "pessoa" : "pessoas")}, e cuja diária custa {suiteA.ValorDiaria:C} por pessoa.\n");
+    }
+
+    if (Convert.ToInt32(quantidadePessoas) <= suiteB.Capacidade)
+    {
+      Console.WriteLine($"B: Suite {suiteB.TipoSuite}, que tem capacidade para {suiteB.Capacidade} {(suiteB.Capacidade == 1 ? "pessoa" : "pessoas")}, e cuja diária custa {suiteB.ValorDiaria:C} por pessoa.\n");
+    }
+
+    if (Convert.ToInt32(quantidadePessoas) > suiteA.Capacidade && Convert.ToInt32(quantidadePessoas) > suiteB.Capacidade)
+    {
+      Console.WriteLine("Não há nenhuma opção de suite para a quantidade de pessoas digitada.\n");
+      Console.WriteLine("Digite qualquer tecla para sair.");
+      Console.ReadKey();
+      Environment.Exit(0);
+    }
+  }
+  else
+  {
+    Console.WriteLine("Se não há ninguém para fazer uma reserva, encerramos o programa.\n");
+    Console.WriteLine("Digite qualquer tecla para sair.");
+    Console.ReadKey();
+    Environment.Exit(0);
+  }
+
+  string opcaoEscolhida = Console.ReadLine();
+
+  switch (opcaoEscolhida)
+  {
+    case "A":
+      {
+        reserva1.CadastrarSuite(suiteA);
+
+      }
+      break;
+    case "B":
+      {
+        reserva1.CadastrarSuite(suiteB);
+      }
+      break;
+    default:
+      {
+        Console.WriteLine("Você digitou uma opção inválida. \n");
+        Console.WriteLine("Digite qualquer tecla para sair.");
+        Console.ReadKey();
+        Environment.Exit(0);
+      }
+      break;
+  }
+
+  Console.Clear();
+
+  Console.WriteLine($"Ótimo! Você escolheu a suite {reserva1.Suite.TipoSuite}. \n");
+
+  Console.WriteLine($"Agora, digite o nome {(Convert.ToInt32(quantidadePessoas) == 1 ? "da pessoa que ficará" : "das pessoas que ficarão")} na suíte.\n");
+
+  Console.Write("Pessoa 1: ");
+
+  Pessoa hospede1 = new Pessoa();
+
+  hospede1.Nome = Console.ReadLine();
+
+  List<Pessoa> hospedes = new List<Pessoa> { hospede1 };
+
+  reserva1.CadastrarHospedes(hospedes);
+
+  // if (Convert.ToInt32(quantidadePessoas) > 1 && reserva1.Suite.Capacidade > 1)
+  // {
+  //   Console.Write("Pessoa 2: ");
+
+  //   hospede2.Nome = Console.ReadLine();
+
+  //   reserva1.Hospedes.Add(hospede2);
+  // }
+
+  Console.Clear();
+
+  Console.WriteLine("Agora, para quantos dias é a reserva?");
+
+  string quantidadeDias = Console.ReadLine();
+
+  reserva1.DiasReservados = Convert.ToInt32(quantidadeDias);
+
+  Console.Clear();
+
+  Console.WriteLine($"Excelente! Sua reserva foi feita, e o valor total foi de {reserva1.CalcularValorDiaria():C}!\n");
+
+  Console.WriteLine("Digite qualquer tecla para sair.");
+
+  Console.ReadKey();
+
+  condicao = false;
+}
